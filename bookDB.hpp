@@ -1,3 +1,4 @@
+#pragma once
 #include "model/book.hpp"
 #include <vector>
 
@@ -14,6 +15,7 @@ public:
 	vector<Book> search(Book book);
 	bool requestBook(User user, string ISBN, long date);
 	long getDueDate(string ISBN);
+	void displayAll();
 };
 
 BookDB::BookDB()
@@ -50,10 +52,11 @@ bool BookDB::remove(string ISBN)
 		if (books[i].getIsbn() == ISBN)
 		{
 			books.erase(books.begin() + i);
+			cout << "Book " << books[i].getTitle() << " Removed" << endl;
 			return true;
 		}
 	}
-
+	cout << "Book not found" << endl;
 	return false;
 }
 
@@ -127,4 +130,14 @@ long BookDB::getDueDate(string ISBN)
 			return book.showDueDate();
 	}
 	return -1;
+}
+
+void BookDB::displayAll()
+{
+	cout << "Total books: " << books.size() << endl;
+	for (Book book : books)
+	{
+		cout << "-----------" << endl;
+		book.display();
+	}
 }

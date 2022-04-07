@@ -1,3 +1,4 @@
+#pragma once
 #include "model/user.hpp"
 #include <vector>
 
@@ -12,6 +13,8 @@ public:
 	bool update(User *user, string name);
 	bool remove(string name);
 	User *search(string name);
+	int authenticate(string name, string password, char type);
+	void displayAll();
 };
 
 UserDB::UserDB()
@@ -64,4 +67,43 @@ User *UserDB::search(string name)
 		}
 	}
 	return new User();
+}
+
+int UserDB::authenticate(string name, string password, char type)
+{
+	for (User *user : users)
+	{
+		if (user->getName() == name)
+		{
+			if (user->getPassword() == password)
+			{
+				if (user->getType() == type)
+				{
+					return 0;
+				}
+				else
+				{
+					cout << "User Not of requested category" << endl;
+					return 1;
+				}
+			}
+			else
+			{
+				cout << "Invalid credentials" << endl;
+				return 2;
+			}
+		}
+	}
+	cout << "User Not Found" << endl;
+	return 3;
+}
+
+void UserDB::displayAll()
+{
+	cout << "Total users: " << users.size() << endl;
+	cout << "Name and type of user" << endl;
+	for (User *user : users)
+	{
+		cout << user->getName() << " [" << user->getType() << "]" << endl;
+	}
 }

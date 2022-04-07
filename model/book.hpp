@@ -31,6 +31,7 @@ public:
 	string getIsbn();
 	string getPublication();
 	User getUser();
+	void display();
 
 	// Other Methods
 	bool bookRequest(User user);

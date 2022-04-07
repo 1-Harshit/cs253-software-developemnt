@@ -1,5 +1,7 @@
 #include "book.hpp"
 
+#include <iostream>
+
 Book::Book()
 {
 }
@@ -85,4 +87,13 @@ bool Book::bookRequest(User user)
 	{
 		return false;
 	}
+}
+
+void Book::display()
+{
+	cout << "Title: " << title << endl;
+	cout << "Publication: " << publication << endl;
+	cout << "Author: " << author << endl;
+	cout << "ISBN: " << isbn << endl;
+	cout << "Issued To: " << user.getName() << endl;
 }
