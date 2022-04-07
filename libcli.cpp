@@ -302,6 +302,7 @@ void professor(UserDB *userDB, BookDB *bookDB)
 	}
 	Professor *professor = (Professor *)userDB->search(username);
 	int option = -1;
+	Book *book;
 	while (option != 0)
 	{
 		cout << "Professor: " << username << endl;
@@ -329,7 +330,7 @@ void professor(UserDB *userDB, BookDB *bookDB)
 		case 4:
 			cout << "Issuing a book based on isbn" << endl;
 			isbn = getISBN();
-			Book *book = bookDB->requestBook((User *)professor, isbn, time(0) + (60 * 24 * 60 * 60));
+			book = bookDB->requestBook((User *)professor, isbn, time(0) + (60 * 24 * 60 * 60));
 			if (book == NULL)
 				cout << "No Book Found or not available" << endl;
 			else
