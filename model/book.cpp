@@ -10,6 +10,7 @@ Book::Book(string title, string author, string isbn, string publication)
 	this->author = author;
 	this->isbn = isbn;
 	this->publication = publication;
+	this->user = User();
 }
 
 void Book::setAuthor(string author)

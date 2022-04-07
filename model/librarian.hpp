@@ -14,6 +14,6 @@ Librarian::Librarian(/* args */) : User()
 {
 }
 
-Librarian::Librarian(string name, string password) : User(name, password)
+Librarian::Librarian(string name, string password) : User(name, password, 'l')
 {
 }
