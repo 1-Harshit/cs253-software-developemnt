@@ -233,6 +233,7 @@ void student(UserDB *userDB, BookDB *bookDB)
 	}
 	Student *student = (Student *)userDB->search(username);
 	int option = -1;
+	string isbn;
 	while (option != 0)
 	{
 		cout << "Student: " << username << endl;
@@ -263,13 +264,76 @@ void student(UserDB *userDB, BookDB *bookDB)
 			}
 			else
 			{
-				string isbn = getISBN();
-				Book *book = bookDB->requestBook((User *)student, isbn, time(0) + (2 * 24 * 60 * 60));
+				isbn = getISBN();
+				Book *book = bookDB->requestBook((User *)student, isbn, time(0) + (30 * 24 * 60 * 60));
 				if (book == NULL)
 					cout << "No Book Found or not available" << endl;
 				else
 					student->issue(book);
 			}
+			break;
+		case 0:
+			cout << "Logging out ..." << endl;
+			break;
+		default:
+			cout << "Invalid option" << endl;
+			break;
+		}
+	}
+}
+
+void professor(UserDB *userDB, BookDB *bookDB)
+{
+	cout << HASH "Login as Professor" HASH << endl;
+	string username;
+	for (int i = 0; i < 3; i++)
+	{
+		cout << "Enter your username: ";
+		cin >> username;
+		cout << "Enter your password: ";
+		string password;
+		cin >> password;
+		int res = userDB->authenticate(username, password, 'p');
+		if (res == 0)
+		{
+			cout << "Welcome " << username << endl;
+			break;
+		}
+	}
+	Professor *professor = (Professor *)userDB->search(username);
+	int option = -1;
+	while (option != 0)
+	{
+		cout << "Professor: " << username << endl;
+		cout << OPTION << endl;
+		cout << "1. View all books" << endl;
+		cout << "2. List books" << endl;
+		cout << "3. View Dues" << endl;
+		cout << "4. Issue a book" << endl;
+		cout << "0. Logout" << endl;
+		cout << "Enter your option: ";
+		cin >> option;
+		string isbn;
+
+		switch (option)
+		{
+		case 1:
+			bookDB->displayAll();
+			break;
+		case 2:
+			professor->getBooks();
+			break;
+		case 3:
+			cout << "dues: " << professor->calculateFine() << endl;
+			break;
+		case 4:
+			cout << "Issuing a book based on isbn" << endl;
+			isbn = getISBN();
+			Book *book = bookDB->requestBook((User *)professor, isbn, time(0) + (60 * 24 * 60 * 60));
+			if (book == NULL)
+				cout << "No Book Found or not available" << endl;
+			else
+				professor->issue(book);
 			break;
 		case 0:
 			cout << "Logging out ..." << endl;
