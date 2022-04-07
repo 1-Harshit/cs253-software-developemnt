@@ -13,7 +13,7 @@ public:
 	bool update(Book book, string ISBN);
 	bool remove(string ISBN);
 	vector<Book> search(Book book);
-	bool requestBook(User user, string ISBN, long date);
+	Book *requestBook(User *user, string ISBN, long date);
 	long getDueDate(string ISBN);
 	void displayAll();
 };
@@ -106,20 +106,20 @@ vector<Book> BookDB::search(Book book)
 	return result;
 }
 
-bool BookDB::requestBook(User user, string ISBN, long dueDate)
+Book *BookDB::requestBook(User *user, string ISBN, long dueDate)
 {
-	for (Book book : books)
+	for (Book &book : books)
 	{
 		if (book.getIsbn() == ISBN)
 		{
-			if (book.getUser().getName() != "")
-				return false;
+			if (book.getUser()->getName() != "")
+				return NULL;
 			book.setUser(user);
 			book.setDate(dueDate);
-			return true;
+			return &book;
 		}
 	}
-	return false;
+	return NULL;
 }
 
 long BookDB::getDueDate(string ISBN)

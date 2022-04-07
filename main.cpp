@@ -29,7 +29,7 @@ int main()
 			librarian(userDB, bookDB);
 			break;
 		case 2:
-			cout << "Student" << endl;
+			student(userDB, bookDB);
 			break;
 		case 3:
 			cout << "Professor" << endl;

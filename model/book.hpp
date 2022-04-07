@@ -11,7 +11,7 @@ private:
 	string author;
 	string isbn;
 	string publication;
-	User user;
+	User *user;
 	long date;
 
 public:
@@ -24,16 +24,16 @@ public:
 	void setAuthor(string author);
 	void setIsbn(string isbn);
 	void setPublication(string publication);
-	void setUser(User user);
+	void setUser(User *user);
 	void setDate(long date);
 	string getTitle();
 	string getAuthor();
 	string getIsbn();
 	string getPublication();
-	User getUser();
+	User *getUser();
 	void display();
 
 	// Other Methods
-	bool bookRequest(User user);
+	bool bookRequest(User *user);
 	long showDueDate();
 };

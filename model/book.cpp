@@ -12,7 +12,7 @@ Book::Book(string title, string author, string isbn, string publication)
 	this->author = author;
 	this->isbn = isbn;
 	this->publication = publication;
-	this->user = User();
+	this->user = new User();
 }
 
 void Book::setAuthor(string author)
@@ -35,7 +35,7 @@ void Book::setTitle(string title)
 	this->title = title;
 }
 
-void Book::setUser(User user)
+void Book::setUser(User *user)
 {
 	this->user = user;
 }
@@ -65,7 +65,7 @@ string Book::getTitle()
 	return title;
 }
 
-User Book::getUser()
+User *Book::getUser()
 {
 	return user;
 }
@@ -75,7 +75,7 @@ long Book::showDueDate()
 	return date;
 }
 
-bool Book::bookRequest(User user)
+bool Book::bookRequest(User *user)
 {
 	if (this->date == 0)
 	{
@@ -95,5 +95,5 @@ void Book::display()
 	cout << "Publication: " << publication << endl;
 	cout << "Author: " << author << endl;
 	cout << "ISBN: " << isbn << endl;
-	cout << "Issued To: " << user.getName() << endl;
+	cout << "Issued To: " << user->getName() << endl;
 }

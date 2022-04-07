@@ -148,6 +148,7 @@ void librarian(UserDB *userDB, BookDB *bookDB)
 	int option = -1;
 	while (option != 0)
 	{
+		cout << "Librarian: " << username << endl;
 		cout << OPTION << endl;
 		cout << "1. Add a book" << endl;
 		cout << "2. Remove a book" << endl;
@@ -172,7 +173,11 @@ void librarian(UserDB *userDB, BookDB *bookDB)
 			bookDB->remove(getISBN());
 			break;
 		case 3:
-			bookDB->search(searchBook());
+			for (Book book : bookDB->search(searchBook()))
+			{
+				cout << HASH << endl;
+				book.display();
+			}
 			break;
 		case 4:
 			cout << "Updating a book" << endl;
@@ -200,6 +205,74 @@ void librarian(UserDB *userDB, BookDB *bookDB)
 			break;
 		case 0:
 			cout << "Logging out..." << endl;
+			break;
+		default:
+			cout << "Invalid option" << endl;
+			break;
+		}
+	}
+}
+
+void student(UserDB *userDB, BookDB *bookDB)
+{
+	cout << HASH "Login as Student" HASH << endl;
+	string username;
+	for (int i = 0; i < 3; i++)
+	{
+		cout << "Enter your username: ";
+		cin >> username;
+		cout << "Enter your password: ";
+		string password;
+		cin >> password;
+		int res = userDB->authenticate(username, password, 's');
+		if (res == 0)
+		{
+			cout << "Welcome " << username << endl;
+			break;
+		}
+	}
+	Student *student = (Student *)userDB->search(username);
+	int option = -1;
+	while (option != 0)
+	{
+		cout << "Student: " << username << endl;
+		cout << OPTION << endl;
+		cout << "1. View all books" << endl;
+		cout << "2. List books" << endl;
+		cout << "3. View Dues" << endl;
+		cout << "4. Issue a book" << endl;
+		cout << "0. Logout" << endl;
+		cout << "Enter your option: ";
+		cin >> option;
+		switch (option)
+		{
+		case 1:
+			bookDB->displayAll();
+			break;
+		case 2:
+			student->getBooks();
+			break;
+		case 3:
+			cout << "dues: " << student->calculateFine() << endl;
+			break;
+		case 4:
+			cout << "Issuing a book based on isbn" << endl;
+			if (student->getBookCount() > 5)
+			{
+				cout << "Book issue limit reached" << endl;
+			}
+			else
+			{
+				string isbn = getISBN();
+				Book *book = bookDB->requestBook((User *)student, isbn, time(0) + (2 * 24 * 60 * 60));
+				if (book == NULL)
+					cout << "No Book Found or not available" << endl;
+				else
+					student->issue(book);
+			}
+			break;
+		case 0:
+			cout << "Logging out ..." << endl;
 			break;
 		default:
 			cout << "Invalid option" << endl;
