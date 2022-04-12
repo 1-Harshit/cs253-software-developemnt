@@ -6,7 +6,7 @@ ofile=$2
 
 # If all arguements given
 if [ $# != 2 ]; then
-	echo "Usage: $0 in_file out_file"
+	echo "Usage: $0 <in_file> <out_file>"
 	exit
 fi
 
@@ -39,4 +39,5 @@ awk -F "\"*,\"*" '
 # top five colleges who have maximum MedianEarnings
 echo "" >> "$ofile"
 echo "Top five colleges who have maximum MedianEarnings" >>"$ofile"
-sort -t , -k 16 -r -n "$ifile" | awk -F "\"*,\"*" 'NR<=5 {print $1,"| Median Earning:",$16}' >> "$ofile"
+echo "Name MedianEarnings" >>"$ofile"
+sort -t , -k 16 -r -n "$ifile" | awk -F "\"*,\"*" 'NR<=5 {print $1,$16}' >> "$ofile"
